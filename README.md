@@ -1,5 +1,5 @@
-## RestaurantCollections App
-Web application for Restaurant Collections system that allows users to keep and share menus for your favorite restaurants and order. Also, Supply English menus.
+# RestaurantCollections App
+Web application for Restaurant Collections system that allows users to keep and share menus for your favorite restaurants and order, and also, supply English menus.
 
 Please also note the Web API that it uses: https://github.com/ISS-Security-Team-Delta/RestaurantCollections
 
