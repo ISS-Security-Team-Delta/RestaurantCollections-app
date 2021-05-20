@@ -5,8 +5,12 @@ html
     link rel="icon" type="image/x-ico" href="/logo.ico"
     / Themed Bootstrap CSS (Cerulean Theme) - see bootswatch.com for more themes
     / - default Bootstrap CSS: https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css
+    link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
     link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.min.css"
-
+    
+    / Font Awesome (Icons)
+    link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous"
+    
     / Custom CSS
     == assets(:css)
   body
@@ -15,7 +19,8 @@ html
     script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"
 
     == render :nav
-    div class='container' id='html_body'
+
+    div id='html_body'
       section
         == render :flash_bar
         == yield
