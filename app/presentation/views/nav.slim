@@ -1,20 +1,20 @@
 nav role="navigation" class="navbar navbar-expand-sm navbar-dark bg-primary"
   div class="container-fluid"
-    a class="navbar-brand" rel="home" href="/" title="Securely Share Configurations"
-        img alt="RestaurantCollections" src="/logo.png" style="max-width:35px; margin-top: -7px;"
-    a class="navbar-brand" href="/" RestaurantCollections
-    button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation"
+    a class="navbar-brand" rel="home" href="/" title="Restaurant Collections"
+      img alt="RestaurantCollections" src="/logo.png" style="max-width:35px; margin-top: -7px;"
+    a class="navbar-brand" rel="home" href="/" RestaurantCollections
+    button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="true" aria-label="Toggle navigation"
       span class="navbar-toggler-icon"
 
-    div class="collapse navbar-collapse" id="mainNavbar"
+    div class="navbar-collapse collapse show" id="navbarColor01" style=""
       ul class="navbar-nav me-auto"
         - if @current_account
+          /! After Login NAV (Not finished)
           li class="nav-item"
-            a class="nav-link disabled" href="/" Projects
-          li class="nav-item dropdown"
+            a class="nav-link disabled" href="/" Collections
+          li class="nav-item"
             a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
               = "#{@current_account['username']}"
-
             div class=-"dropdown-menu"
               a class="dropdown-item" href="/account/#{@current_account['username']}" account
               a class="dropdown-item" href='/auth/logout' logout
@@ -23,4 +23,3 @@ nav role="navigation" class="navbar navbar-expand-sm navbar-dark bg-primary"
             a class="nav-link" href='/auth/login' login
           li class="nav-item"
             a class="nav-link disabled" href='/auth/login' register
-        
