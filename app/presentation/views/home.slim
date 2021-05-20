@@ -1,8 +1,11 @@
-h1 Welcome to Restaurant Collections
-
-p This site allows you to keep and share menus for your favorite restaurants and order, and also supply English menus.
-
-- unless current_account 
-  p
-    a href='/auth/login'
-      button type='button' class='btn btn-primary' login to start!
+header class="masthead container-fluid"
+  div  class="d-flex h-100 align-items-center"
+    div class="mx-auto text-center"
+      h1 class="mx-auto my-0 text-uppercase" Restaurant Collections
+  
+      h2 class="text-white-50 mx-auto mt-2 mb-5" This site allows you to keep and share menus for your favorite restaurants and order, and also supply English menus.
+  
+      - unless current_account 
+        p
+          a href='/auth/login'
+            button type='button' class='btn btn-primary' Login to start!
