@@ -3,8 +3,8 @@
 require 'roda'
 require_relative './app'
 
-module Credence
-  # Web controller for Credence API
+module RestaurantCollections
+  # Web controller for Restaurant Collections API
   class App < Roda
     route('account') do |routing|
       routing.on do
