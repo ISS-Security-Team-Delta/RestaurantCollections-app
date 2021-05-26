@@ -3,6 +3,7 @@
 require 'roda'
 require 'figaro'
 require 'logger'
+require 'rack/ssl-enforcer'
 
 module RestaurantCollections
   # Configuration for the API
