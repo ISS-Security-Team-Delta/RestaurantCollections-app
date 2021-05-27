@@ -29,9 +29,11 @@ module RestaurantCollections
         end
       end
 
+      @logout_route = '/auth/logout'
       routing.on 'logout' do
         routing.get do
-          session[:current_account] = nil
+          SecureSession.new(session).delete(:current_account)
+          flash[:notice] = "You've been logged out"
           routing.redirect @login_route
         end
       end
