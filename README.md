@@ -12,6 +12,6 @@ Install this application by cloning the relevant branch and use bundler to insta
 ## Execute
 Launch the application using:
 
-`rake run:dev`
+`bundle exec rake run:dev`
 
 The application expects the API application to also be running (see config/app.yml for specifying its URL)
