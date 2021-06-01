@@ -29,6 +29,7 @@ module RestaurantCollections
         end
       end
 
+      # GET /auth/logout
       @logout_route = '/auth/logout'
       routing.on 'logout' do
         routing.get do
@@ -53,13 +54,21 @@ module RestaurantCollections
 
             flash[:notice] = 'Please check your email for a verification link'
             routing.redirect '/'
-            rescue StandardError => e
+          rescue StandardError => e
             puts "ERROR VERIFYING REGISTRATION: #{e.inspect}"
             flash[:error] = 'Registration details are not valid'
             routing.redirect @register_route
           end
         end
 
+        # GET /auth/register/<token>
+        routing.get(String) do |registration_token|
+          flash.now[:notice] = 'Email Verified! Please choose a new password'
+          new_account = SecureMessage.decrypt(registration_token)
+          view :register_confirm,
+               locals: { new_account: new_account,
+                         registration_token: registration_token }
+        end
       end
     end
   end
