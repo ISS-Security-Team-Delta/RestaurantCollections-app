@@ -16,7 +16,7 @@ module RestaurantCollections
       registration_data['verification_url'] =
         "#{@config.APP_URL}/auth/register/#{registration_token}"
 
-      response = HTTP.post("#{@config.API_URL}/auth/register",
+      response = HTTP.post("#{@config.API_URL}/auth/register", 
                            json: registration_data)
       raise(VerificationError) unless response.code == 202
 

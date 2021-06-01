@@ -12,12 +12,6 @@ module RestaurantCollections
     plugin :multi_route
     plugin :flash
 
-    ONE_MONTH = 30 * 24 * 60 * 60
-
-    use Rack::Session::Cookie,
-        expire_after: ONE_MONTH,
-        secret: config.SESSION_SECRET
-
     route do |routing|
       response['Content-Type'] = 'text/html; charset=utf-8'
       @current_account = SecureSession.new(session).get(:current_account)

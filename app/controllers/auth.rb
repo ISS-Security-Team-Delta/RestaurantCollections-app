@@ -18,7 +18,8 @@ module RestaurantCollections
         routing.post do
           account = AuthenticateAccount.new(App.config).call(
             username: routing.params['username'],
-            password: routing.params['password'])
+            password: routing.params['password']
+          )
 
           session[:current_account] = account
           flash[:notice] = "Welcome back #{account['username']}!"
@@ -31,10 +32,9 @@ module RestaurantCollections
 
       # GET /auth/logout
       @logout_route = '/auth/logout'
-      routing.on 'logout' do
+      routing.is 'logout' do
         routing.get do
-          SecureSession.new(session).delete(:current_account)
-          flash[:notice] = "You've been logged out"
+          CurrentSession.new(session).delete
           routing.redirect @login_route
         end
       end
