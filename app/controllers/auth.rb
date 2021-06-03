@@ -20,11 +20,12 @@ module RestaurantCollections
             username: routing.params['username'],
             password: routing.params['password']
           )
-
-          session[:current_account] = account
-          flash[:notice] = "Welcome back #{account['username']}!"
+          puts "THE ACCOUNT: #{account[:account]}"          
+          # session[:current_account] = account[:account]['username']
+          flash[:notice] = "Welcome back #{account[:account]['username']}!"
           routing.redirect '/'
-        rescue StandardError
+        rescue StandardError => e
+          puts "ERROR LOGGING IN: #{e.inspect}"
           flash[:error] = 'Username and password did not match our records'
           routing.redirect @login_route
         end
