@@ -51,6 +51,7 @@ module RestaurantCollections
           routing.post do
             account_data = JsonRequestBody.symbolize(routing.params)
             VerifyRegistration.new(App.config).call(account_data)
+            
 
             flash[:notice] = 'Please check your email for a verification link'
             routing.redirect '/'
