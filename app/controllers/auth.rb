@@ -16,17 +16,28 @@ module RestaurantCollections
 
         # POST /auth/login
         routing.post do
-          account = AuthenticateAccount.new(App.config).call(
+          account_info = AuthenticateAccount.new(App.config).call(
             username: routing.params['username'],
             password: routing.params['password']
           )
-          puts "THE ACCOUNT: #{account[:account]}"          
-          # session[:current_account] = account[:account]['username']
-          flash[:notice] = "Welcome back #{account[:account]['username']}!"
+
+          current_account = CurrentAccount.new(
+            account_info[:account],
+            account_info[:auth_token]
+          )
+
+          CurrentSession.new(session).current_account = current_account
+
+          flash[:notice] = "Welcome back #{current_account.username}!"
           routing.redirect '/'
-        rescue StandardError => e
-          puts "ERROR LOGGING IN: #{e.inspect}"
-          flash[:error] = 'Username and password did not match our records'
+        rescue AuthenticateAccount::UnauthorizedError
+          flash.now[:error] = 'Username and password did not match our records'
+          response.status = 403
+          view :login
+        rescue AuthenticateAccount::ApiServerError => e
+          puts "LOGIN ERROR: #{e.inspect}\n#{e.backtrace}"
+          flash[:error] = 'Our servers are not responding -- please try later'
+          response.status = 500
           routing.redirect @login_route
         end
       end
@@ -52,7 +63,7 @@ module RestaurantCollections
           routing.post do
             account_data = JsonRequestBody.symbolize(routing.params)
             VerifyRegistration.new(App.config).call(account_data)
-            
+
 
             flash[:notice] = 'Please check your email for a verification link'
             routing.redirect '/'
