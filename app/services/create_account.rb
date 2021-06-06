@@ -3,9 +3,14 @@
 require 'http'
 
 module RestaurantCollections
-  # creates a new registered account
+  # Returns an authenticated user, or nil
   class CreateAccount
-    class InvalidAccount < StandardError; end
+    # Error for accounts that cannot be created
+    class InvalidAccount < StandardError
+      def message
+        'This account can no longer be created: please start again'
+      end
+    end
 
     def initialize(config)
       @config = config
@@ -15,10 +20,12 @@ module RestaurantCollections
       message = { email: email,
                   username: username,
                   password: password }
+
       response = HTTP.post(
         "#{@config.API_URL}/accounts/",
         json: message
       )
+
       raise InvalidAccount unless response.code == 201
     end
   end

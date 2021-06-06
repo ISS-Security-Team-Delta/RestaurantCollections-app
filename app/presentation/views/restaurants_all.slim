@@ -1,0 +1,16 @@
+div class="row" style="vertical-align: bottom;"
+  div class="col-xs-9"
+    h3 All Restaurants
+  div class="col-xs-3"
+table class="table"
+  thead
+    tr
+      th Restaurant name
+      th Restaurant Website
+  tbody
+    - restaurants.all.each do |rest|
+      tr
+        td
+          a href="/account/restaurants/#{rest.id}" #{rest.name}
+          td
+            a href="#{rest.website}" #{rest.website}

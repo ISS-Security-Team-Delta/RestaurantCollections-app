@@ -5,7 +5,7 @@ require_relative 'restaurant'
 module RestaurantCollections
   # Behaviors of the currently logged in account
   class Restaurant
-    attr_reader :id, :name, :repo_url
+    attr_reader :id, :website, :name, :address, :menu
 
     def initialize(rest_info)
       @id = rest_info['attributes']['id']
