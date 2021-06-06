@@ -8,9 +8,9 @@ module RestaurantCollections
   class App < Roda
     route('account') do |routing|
       routing.on do
-        # GET /account/login
+        # GET /account
         routing.get String do |username|
-          if @current_account && @current_account['username'] == username
+          if @current_account && @current_account.username == username
             view :account, locals: { current_account: @current_account }
           else
             routing.redirect '/auth/login'
