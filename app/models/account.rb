@@ -2,8 +2,8 @@
 
 module RestaurantCollections
   # Behaviors of the currently logged in account
-  class CurrentAccount
-    def initialize(account_info, auth_token)
+  class Account
+    def initialize(account_info, auth_token = nil)
       @account_info = account_info
       @auth_token = auth_token
     end

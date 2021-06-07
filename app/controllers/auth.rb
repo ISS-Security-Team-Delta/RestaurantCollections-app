@@ -21,7 +21,7 @@ module RestaurantCollections
             password: routing.params['password']
           )
 
-          current_account = CurrentAccount.new(
+          current_account = Account.new(
             account_info[:account],
             account_info[:auth_token]
           )
