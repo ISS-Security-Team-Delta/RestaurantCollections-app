@@ -33,7 +33,7 @@ class SecureSession
   end
 
   def get(key)
-    return nil unless @session[key]
+    return nil unless @session && @session[key]
 
     SecureMessage.decrypt(@session[key])
   end
