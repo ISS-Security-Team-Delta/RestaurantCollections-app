@@ -2,6 +2,7 @@
 
 require 'roda'
 require_relative './app'
+require_relative '../forms/auth'
 
 module RestaurantCollections
   # Web controller for Restaurant Collections API
@@ -16,6 +17,13 @@ module RestaurantCollections
 
         # POST /auth/login
         routing.post do
+          credentials = Form::LoginCredentials.new.call(routing.params)
+
+          if credentials.failure?
+            flash[:error] = 'Please enter both username and password'
+            routing.redirect @login_route
+          end
+
           account_info = AuthenticateAccount.new(App.config).call(
             username: routing.params['username'],
             password: routing.params['password']
@@ -61,9 +69,15 @@ module RestaurantCollections
 
           # POST /auth/register
           routing.post do
+            registration = Form::Registration.new.call(routing.params)
+
+            if registration.failure?
+              flash[:error] = Form.validation_errors(registration)
+              routing.redirect @register_route
+            end
+
             account_data = JsonRequestBody.symbolize(routing.params)
             VerifyRegistration.new(App.config).call(account_data)
-
 
             flash[:notice] = 'Please check your email for a verification link'
             routing.redirect '/'
