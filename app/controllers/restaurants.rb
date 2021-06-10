@@ -4,7 +4,7 @@ require 'roda'
 require_relative '../forms/new_restaurant'
 
 module RestaurantCollections
-  # Web controller for Credence API
+  # Web controller for RestaurantCollections API
   class App < Roda
     route('restaurants') do |routing|
       routing.on do
@@ -17,7 +17,7 @@ module RestaurantCollections
           end
         end
 
-        @restaurants_route = '/restaurants/'
+        @restaurants_route = '/restaurants'
         routing.get do
           if @current_account.logged_in?
             restaurant_list = GetAllRestaurants.new(App.config).call(@current_account)
@@ -31,6 +31,7 @@ module RestaurantCollections
           end
         end
 
+        # POST /restaurants/
         routing.post do
           routing.redirect '/auth/login' unless @current_account.logged_in?
           puts "REST: #{routing.params}"
@@ -45,8 +46,8 @@ module RestaurantCollections
             restaurant_data: restaurant_data.to_h
           )
         rescue StandardError => e
-          puts "FAILURE Creating Project: #{e.inspect}"
-          flash[:error] = 'Could not create project'
+          puts "FAILURE Creating Restaurant: #{e.inspect}"
+          flash[:error] = 'Could not create restaurant'
         ensure
           routing.redirect @restaurants_route
         end
