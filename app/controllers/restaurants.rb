@@ -19,7 +19,7 @@ module RestaurantCollections
           end
         end
         
-        @restaurants_route = '/restaurants/'
+        @restaurants_route = '/restaurants'
 
         routing.on(String) do |rest_id|
           @restaurant_route = "#{@restaurants_route}/#{rest_id}"
@@ -96,7 +96,7 @@ module RestaurantCollections
 
         # GET /restaurants/
         routing.get do
-          #binding.pry
+          binding.pry
           if @current_account.logged_in?
             restaurant_list = GetAllRestaurants.new(App.config).call(@current_account)
 
