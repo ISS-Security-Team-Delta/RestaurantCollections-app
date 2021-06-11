@@ -10,9 +10,9 @@ module RestaurantCollections
 
       params do
         required(:name).filled
-        required(:rest_url).filled(format?: URI::DEFAULT_PARSER.make_regexp)
-        required(:rest_add).filled
-        required(:rest_menu).filled
+        required(:website).filled(format?: URI::DEFAULT_PARSER.make_regexp)
+        required(:address).filled
+        required(:menu).filled
       end
     end
   end

@@ -1,6 +1,6 @@
 en:
   errors:
     name: 'Restaurant name must be filled'
-    rest_url: 'URL must be in proper format'
-    rest_add: 'Restaurant address must be filled'
-    rest_menu: 'Restaurant must have a menu'
+    website: 'URL must be in proper format'
+    address: 'Restaurant address must be filled'
+    menu: 'Restaurant must have a menu'
