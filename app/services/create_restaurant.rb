@@ -19,9 +19,9 @@ module RestaurantCollections
     def call(current_account:, restaurant_data:)
         puts "Entered restaurant service with data: #{restaurant_data}"
       message = { name: restaurant_data[:name],
-                    website: restaurant_data[:repo_url],
-                    address: restaurant_data[:rest_add],
-                    menu: restaurant_data[:rest_menu]
+                  website: restaurant_data[:website],
+                  address: restaurant_data[:address],
+                  menu: restaurant_data[:menu]
                 }
 
       response = HTTP.post(
