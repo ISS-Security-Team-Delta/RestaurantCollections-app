@@ -29,6 +29,7 @@ module RestaurantCollections
 
       @owner = Account.new(relationships['owner'])
       @collaborators = process_collaborators(relationships['collaborators'])
+      @comments = process_comments(relationships['comments'])
     end
 
     def process_policies(policies)

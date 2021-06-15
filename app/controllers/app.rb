@@ -2,6 +2,7 @@
 
 require 'roda'
 require 'slim'
+require 'slim/include'
 
 module RestaurantCollections
   # Base class for RestaurantCollections Web Application

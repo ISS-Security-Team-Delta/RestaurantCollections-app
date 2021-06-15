@@ -2,7 +2,8 @@ div class="row" style="vertical-align: bottom;"
   div class="col-xs-9"
     h3 All Restaurants
   div class="col-xs-3"
-    button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRestaurantModal" + New Restaurant
+    a href="/restaurants/add"
+      button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRestaurantModal" + New Restaurant
 table class="table"
   thead
     tr
@@ -12,9 +13,9 @@ table class="table"
     - restaurants.all.each do |rest|
       tr
         td
-          a href="/account/restaurants/#{rest.id}" #{rest.name}
+          a href="/restaurants/#{rest.id}" #{rest.name}
           td
             a href="#{rest.website}" #{rest.website}
 
 include :restaurant_new_partial
-include :add_restaurant
+
