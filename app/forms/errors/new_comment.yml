@@ -1,0 +1,4 @@
+en:
+  errors:
+    content: 'Content must be filled'
+    like: 'Like must be filled'

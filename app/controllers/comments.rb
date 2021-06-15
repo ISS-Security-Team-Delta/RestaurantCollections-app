@@ -20,3 +20,4 @@ module RestaurantCollections
       end
     end
   end
+end

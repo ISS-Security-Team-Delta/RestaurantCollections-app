@@ -96,7 +96,6 @@ module RestaurantCollections
 
         # GET /restaurants/
         routing.get do
-          binding.pry
           if @current_account.logged_in?
             restaurant_list = GetAllRestaurants.new(App.config).call(@current_account)
 
