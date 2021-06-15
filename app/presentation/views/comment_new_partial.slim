@@ -7,17 +7,10 @@ div id="newCommentModal" class="modal fade" role="dialog"
       div class="modal-body"
         form role="form" action="/restaurants/#{restaurant.id}/comments" method='post' id='new-comment-form'
           div class="form-group"
-            label for='filename_input' File Name:
-            input type='text' name='filename' id='filename_input' class="form-control" placeholder="Filename is required"
+            label for='like_input' Rating:
+            input type='text' name='like' id='like_input' class="form-control" placeholder="Rating"
           div class="form-group"
-            label for='relative_path_input' Relative File Path:
-            span class="small" style="margin-left:10px;" (relative to restaurant root)
-            input type='text' name='relative_path' id='relative_path_input' class="form-control" placeholder="(optional)" value="/"
-          div class="form-group"
-            label for='description_input' Description:
-            input type='text' name='description' id='description_input' class="form-control" placeholder="Describe the file"
-          div class="form-group"
-            label for='comment_input' Comment:
-            textarea name='content' id='content_input' class="form-control" placeholder="Copy/paste your comment here"
+            label for='content_input' Comment:
+            textarea name='content' id='content_input' class="form-control" placeholder="Type your comment here"
           button type='submit' class="btn btn-primary submit" id='registration-form-submit' value='submit' Create
           button type="button" class="btn btn-secondary" data-bs-dismiss="modal" Cancel

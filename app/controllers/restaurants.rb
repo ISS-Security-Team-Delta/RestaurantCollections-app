@@ -2,6 +2,8 @@
 
 require 'roda'
 require_relative '../forms/new_restaurant'
+require_relative '../forms/new_comment'
+require_relative '../forms/collaborator_email'
 
 module RestaurantCollections
   # Web controller for Credence API
@@ -26,6 +28,7 @@ module RestaurantCollections
 
           # GET /restaurants/[rest_id]
           routing.get do
+            binding.pry
             rest_info = GetRestaurant.new(App.config).call(
               @current_account, rest_id
             )
@@ -42,6 +45,7 @@ module RestaurantCollections
 
           # POST /restaurants/[rest_id]/collaborators
           routing.post('collaborators') do
+            binding.pry
             action = routing.params['action']
             collaborator_info = Form::CollaboratorEmail.new.call(routing.params)
             if collaborator_info.failure?
