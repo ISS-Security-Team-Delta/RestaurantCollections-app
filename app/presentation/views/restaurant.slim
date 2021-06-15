@@ -35,10 +35,10 @@ div class="row"
           span class="small" There are no collaborators yet
         ul class="list-group"
           li class="list-group-item clearfix"
-              = restaurant.owner.username
+            = restaurant.owner.username
           - restaurant.collaborators.each do |collaborator|
             li class="list-group-item clearfix"
-              #{collaborator.username}
+              '  #{collaborator.username}
               - if restaurant.policies.can_remove_collaborators
                 span class="float-end"
                   form role='form' method='post' action="/restaurants/#{restaurant.id}/collaborators"

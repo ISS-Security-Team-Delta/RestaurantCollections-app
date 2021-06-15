@@ -4,7 +4,7 @@ require_relative 'form_base'
 
 module RestaurantCollections
   module Form
-    class Newcomment < Dry::Validation::Contract
+    class NewComment < Dry::Validation::Contract
       config.messages.load_paths << File.join(__dir__, 'errors/new_comment.yml')
 
       params do
