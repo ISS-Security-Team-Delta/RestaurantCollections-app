@@ -5,6 +5,8 @@ require 'http'
 module RestaurantCollections
   # Returns an authenticated user, or nil
   class AuthenticateAccount
+    class NotAuthenticatedError < StandardError; end
+
     class UnauthorizedError < StandardError; end
 
     class ApiServerError < StandardError; end
@@ -16,7 +18,7 @@ module RestaurantCollections
     def call(username:, password:)
       response = HTTP.post("#{@config.API_URL}/auth/authenticate",
                            json: { username: username, password: password })
-
+      raise(NotAuthenticatedError) if response.code == 401
       raise(UnauthorizedError) if response.code == 403
       raise(ApiServerError) if response.code != 200
 
