@@ -1,0 +1,18 @@
+h2 
+  a href="/restaurants/#{comment.restaurant.id}" #{comment.restaurant.name}
+h3 File: #{File.join(comment.relative_path, comment.filename)}
+
+dl
+  div class="row"
+    div class="col-xs-3"
+      dt Description:
+    div class="col-xs-9"
+      dd class="blockquote" #{comment.description}
+    div class="col-xs-3"
+      dt Comment:
+    div class="col-xs-9"
+      dd class="blockquote"
+        a data-bs-toggle="collapse" href="#comment" aria-expanded="false" aria-controls="comment" show comment
+        div id="comment" class="collapse"
+          dov class="card card-body"
+            pre class="force-wrap" #{comment.content}

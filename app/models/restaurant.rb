@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'restaurants'
+require_relative 'restaurant'
 
 module RestaurantCollections
   # Behaviors of the currently logged in account
@@ -29,17 +29,17 @@ module RestaurantCollections
 
       @owner = Account.new(relationships['owner'])
       @collaborators = process_collaborators(relationships['collaborators'])
-      @documents = process_documents(relationships['documents'])
+      @comments = process_comments(relationships['comments'])
     end
 
     def process_policies(policies)
       @policies = OpenStruct.new(policies)
     end
 
-    def process_documents(comments_info)
+    def process_comments(comments_info)
       return nil unless comments_info
 
-      comments_info.map { |doc_info| Comment.new(doc_info) }
+      comments_info.map { |com_info| Comment.new(com_info) }
     end
 
     def process_collaborators(collaborators)

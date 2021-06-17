@@ -14,9 +14,7 @@ module RestaurantCollections
 
       "#{url}?client_id=#{client_id}&scope=#{scope}"
     end
-
     route('auth') do |routing|
-
       @oauth_callback = '/auth/sso_callback'
       @login_route = '/auth/login'
       routing.is 'login' do
@@ -35,8 +33,11 @@ module RestaurantCollections
             flash[:error] = 'Please enter both username and password'
             routing.redirect @login_route
           end
-          puts "THE CREDENTIALS: #{credentials.values}"
-          authenticated = AuthenticateAccount.new.call(**credentials.values)
+          puts "THE CREDENTIALS: #{credentials}"
+          authenticated = AuthenticateAccount.new(App.config).call(
+            username: routing.params['username'],
+            password: routing.params['password']
+          )
 
           current_account = Account.new(
             authenticated[:account],
@@ -46,7 +47,7 @@ module RestaurantCollections
           CurrentSession.new(session).current_account = current_account
 
           flash[:notice] = "Welcome back #{current_account.username}!"
-          routing.redirect '/projects'
+          routing.redirect '/'
         rescue AuthenticateAccount::NotAuthenticatedError
           flash[:error] = 'Username and password did not match our records'
           response.status = 401
@@ -106,9 +107,15 @@ module RestaurantCollections
 
           # POST /auth/register
           routing.post do
+            registration = Form::Registration.new.call(routing.params)
+
+            if registration.failure?
+              flash[:error] = Form.validation_errors(registration)
+              routing.redirect @register_route
+            end
+
             account_data = JsonRequestBody.symbolize(routing.params)
             VerifyRegistration.new(App.config).call(account_data)
-
 
             flash[:notice] = 'Please check your email for a verification link'
             routing.redirect '/'
