@@ -5,14 +5,25 @@ require_relative './app'
 require_relative '../forms/auth'
 
 module RestaurantCollections
-  # Web controller for Restaurant Collections API
+  # Web controller for Restaurant Collections APP
   class App < Roda
+    def gh_oauth_url(config)
+      url = config.GH_OAUTH_URL
+      client_id = config.GH_CLIENT_ID
+      scope = config.GH_SCOPE
+
+      "#{url}?client_id=#{client_id}&scope=#{scope}"
+    end
+
     route('auth') do |routing|
+      @oauth_callback = '/auth/sso_callback'
       @login_route = '/auth/login'
       routing.is 'login' do
         # GET /auth/login
         routing.get do
-          view :login
+          view :login, locals: {
+            gh_oauth_url: gh_oauth_url(App.config)
+          }
         end
 
         # POST /auth/login
@@ -24,27 +35,53 @@ module RestaurantCollections
             routing.redirect @login_route
           end
 
-          account_info = AuthenticateAccount.new(App.config).call(
-            username: routing.params['username'],
-            password: routing.params['password']
-          )
+          authenticated = AuthenticateAccount.new.call(**credentials.values)
 
           current_account = Account.new(
-            account_info[:account],
-            account_info[:auth_token]
+            authenticated[:account],
+            authenticated[:auth_token]
           )
 
           CurrentSession.new(session).current_account = current_account
 
           flash[:notice] = "Welcome back #{current_account.username}!"
-          routing.redirect '/'
-        rescue AuthenticateAccount::UnauthorizedError
-          flash.now[:error] = 'Username and password did not match our records'
-          response.status = 403
-          view :login
+          routing.redirect '/restaurants'
+        rescue AuthenticateAccount::NotAuthenticatedError
+          flash[:error] = 'Username and password did not match our records'
+          response.status = 401
+          routing.redirect @login_route
         rescue AuthenticateAccount::ApiServerError => e
           puts "LOGIN ERROR: #{e.inspect}\n#{e.backtrace}"
           flash[:error] = 'Our servers are not responding -- please try later'
+          response.status = 500
+          routing.redirect @login_route
+        end
+      end
+      
+      # SSO
+      routing.is 'sso_callback' do
+        # GET /auth/sso_callback
+        routing.get do
+          authorized = AuthorizeGithubAccount
+                       .new(App.config)
+                       .call(routing.params['code'])
+
+          current_account = Account.new(
+            authorized[:account],
+            authorized[:auth_token]
+          )
+
+          CurrentSession.new(session).current_account = current_account
+
+          flash[:notice] = "Welcome #{current_account.username}!"
+          routing.redirect '/restaurants'
+        rescue AuthorizeGithubAccount::UnauthorizedError
+          flash[:error] = 'Could not login with Github'
+          response.status = 403
+          routing.redirect @login_route
+        rescue StandardError => e
+          puts "SSO LOGIN ERROR: #{e.inspect}\n#{e.backtrace}"
+          flash[:error] = 'Unexpected API Error'
           response.status = 500
           routing.redirect @login_route
         end
@@ -82,8 +119,8 @@ module RestaurantCollections
             flash[:notice] = 'Please check your email for a verification link'
             routing.redirect '/'
           rescue StandardError => e
-            puts "ERROR VERIFYING REGISTRATION: #{e.inspect}"
-            flash[:error] = 'Registration details are not valid'
+            puts "ERROR VERIFYING REGISTRATION: #{routing.params}\n#{e.inspect}"
+            flash[:error] = 'Please use English characters for username only'
             routing.redirect @register_route
           end
         end
