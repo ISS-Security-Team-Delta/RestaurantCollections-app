@@ -14,7 +14,6 @@ module RestaurantCollections
 
       "#{url}?client_id=#{client_id}&scope=#{scope}"
     end
-
     route('auth') do |routing|
       @oauth_callback = '/auth/sso_callback'
       @login_route = '/auth/login'
@@ -75,6 +74,34 @@ module RestaurantCollections
 
           flash[:notice] = "Welcome #{current_account.username}!"
           routing.redirect '/restaurants'
+        rescue AuthorizeGithubAccount::UnauthorizedError
+          flash[:error] = 'Could not login with Github'
+          response.status = 403
+          routing.redirect @login_route
+        rescue StandardError => e
+          puts "SSO LOGIN ERROR: #{e.inspect}\n#{e.backtrace}"
+          flash[:error] = 'Unexpected API Error'
+          response.status = 500
+          routing.redirect @login_route
+        end
+      end
+
+      routing.is 'sso_callback' do
+        # GET /auth/sso_callback
+        routing.get do
+          authorized = AuthorizeGithubAccount
+                       .new(App.config)
+                       .call(routing.params['code'])
+
+          current_account = Account.new(
+            authorized[:account],
+            authorized[:auth_token]
+          )
+
+          CurrentSession.new(session).current_account = current_account
+
+          flash[:notice] = "Welcome #{current_account.username}!"
+          routing.redirect '/projects'
         rescue AuthorizeGithubAccount::UnauthorizedError
           flash[:error] = 'Could not login with Github'
           response.status = 403
