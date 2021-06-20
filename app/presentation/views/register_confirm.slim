@@ -1,29 +1,33 @@
-div class="row"
-  div class="col-sm-3"
-  div class="col-sm-6"
-    form action="/account/#{registration_token}" method='post' id='user-form'
-      div class="form-group"
-        div class="row"
-          div class="col-sm-3" Username:
-          div class="col-sm-9"
-            == new_account['username']
-        div class="row"
-          div class="col-sm-3" Email:
-          div class="col-sm-9"
-            == new_account['email']
+div class="container" style="margin-top: 3em"
+  div class="row"
+    div class="col-sm-3"
+    div class="col-sm-6"
+      form action="/account/#{registration_token}" method='post' id='user-form'
+        div class="form-group form-floating mb-2"
+          div class="row"
+            div class="col-sm-4" Username:
+            div class="col-sm-8"
+              == new_account['username']
 
-      div class="form-group"
-        div class="row"
-          div class="col-sm-3"
-            label for='password_input' Password: 
-          div class="col-sm-9"
-            input type='password' name='password' id='password_input'
-      div class="form-group"
-        div class="row"
-          div class="col-sm-3"
-            label for='password_confirm_input' Re-enter Password: 
-          div class="col-sm-9"
-            input type='password' name='password_confirm' id='password_confirm_input'
+        div class="form-group form-floating mb-2"
+          div class="row"
+            div class="col-sm-4" Email:
+            div class="col-sm-8"
+              == new_account['email']
 
-      button type='submit' id='registration-form-submit' class='submit' value='submit' class="btn btn-primary" submit
-  div class="col-sm-3"
+        div class="form-group form-floating mb-2"
+          div class="row"
+            div class="col-sm-4"
+              label for='password_input' Password: 
+            div class="col-sm-8"
+              input type='password' name='password' id='password_input'
+        
+        div class="form-group form-floating mb-3"
+          div class="row"
+            div class="col-sm-4"
+              label for='password_confirm_input' Re-enter Password: 
+            div class="col-sm-8"
+              input type='password' name='password_confirm' id='password_confirm_input'
+
+        button type='submit' id='registration-form-submit' class='submit' value='submit' class="btn btn-primary" submit
+    div class="col-sm-3"

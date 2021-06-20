@@ -1,21 +1,22 @@
-div class="row" style="vertical-align: bottom;"
-  div class="col-xs-9"
-    h3 All Restaurants
-  div class="col-xs-3"
-    a href="/restaurants/add"
-      button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRestaurantModal" + New Restaurant
-table class="table"
-  thead
-    tr
-      th Restaurant name
-      th Restaurant Website
-  tbody
-    - restaurants.all.each do |rest|
+div class="container" style="margin-top: 3em"
+  div class="row" style="vertical-align: bottom;"
+    div class="col-xs-9"
+      h3 All Restaurants
+    div class="col-xs-3"
+      a href="/restaurants/add"
+        button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newRestaurantModal" + New Restaurant
+  table class="table"
+    thead
       tr
-        td
-          a href="/restaurants/#{rest.id}" #{rest.name}
+        th Restaurant name
+        th Restaurant Website
+    tbody
+      - restaurants.all.each do |rest|
+        tr
           td
-            a href="#{rest.website}" #{rest.website}
+            a href="/restaurants/#{rest.id}" #{rest.name}
+            td
+              a href="#{rest.website}" #{rest.website}
 
-include :restaurant_new_partial
+
 

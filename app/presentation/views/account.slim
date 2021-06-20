@@ -1,16 +1,16 @@
-h1 Account Details
-
-.container
+.container style="margin-top: 3em"
+  h1 Account Details
   .row
     h3 Attributes
   .row
     .col-sm-2 Username:
     .col-sm-10
-      == @current_account.username
+      == account.username
   .row
     .col-sm-2 Email:
     .col-sm-10
-      == @current_account.email
+      == account.email
+  hr
   .row.top-buffer
     h3 API Access:
   .row
