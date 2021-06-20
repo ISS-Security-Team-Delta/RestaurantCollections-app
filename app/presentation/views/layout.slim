@@ -20,8 +20,10 @@ html
     script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"
 
     == render :nav
-
+    
     div id='html_body'
       section
         == render :flash_bar
         == yield
+
+    == render :footer

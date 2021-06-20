@@ -1,64 +1,65 @@
-h2
-  == "#{restaurant.name}"
+.container style="margin-top: 3em"
+  h2
+    == "#{restaurant.name}"
 
-dl
+  dl
+    div class="row"
+      div class="col-xs-3"
+        dt Restaurant Repository:
+      div class="col-xs-9"
+        dd class="blockquote"
+          a href="#{restaurant.website}" #{restaurant.website}
+
   div class="row"
-    div class="col-xs-3"
-      dt Restaurant Repository:
-    div class="col-xs-9"
-      dd class="blockquote"
-        a href="#{restaurant.website}" #{restaurant.website}
-
-div class="row"
-  div class="col-lg-9"
-    div class="row"
-      table class="table"
-        thead
-          tr
-            th File
-            th Description
-        tbody
-          - restaurant.comments.each do |comment|
+    div class="col-lg-9"
+      div class="row"
+        table class="table"
+          thead
             tr
-              td #{comment.content}
-              td #{comment.like}
-    div class="row"
-      div class="col-xs-4"
-        - if restaurant.policies.can_add_comments
-          button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCommentModal" + New Comment
-    div class="row" style="height:10px;"
-  div class="col-lg-3"
-    div class="panel panel-default"
-      div class="panel-heading" Collaborators
-      div class="panel-body"
-        - if restaurant.collaborators.empty?
-          span class="small" There are no collaborators yet
-        ul class="list-group"
-          li class="list-group-item clearfix"
-            = restaurant.owner.username
-          - restaurant.collaborators.each do |collaborator|
+              th Comments
+              th Ratings
+          tbody
+            - restaurant.comments.each do |comment|
+              tr
+                td #{comment.content}
+                td #{comment.like}
+      div class="row"
+        div class="col-xs-4"
+          - if restaurant.policies.can_add_comments
+            button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCommentModal" + New Comment
+      div class="row" style="height:10px;"
+    div class="col-lg-3"
+      div class="panel panel-default"
+        div class="panel-heading" Collaborators
+        div class="panel-body"
+          - if restaurant.collaborators.empty?
+            span class="small" There are no collaborators yet
+          ul class="list-group"
             li class="list-group-item clearfix"
-              '  #{collaborator.username}
-              - if restaurant.policies.can_remove_collaborators
-                span class="float-end"
-                  form role='form' method='post' action="/restaurants/#{restaurant.id}/collaborators"
-                    input type='hidden' name='action' value='remove'
-                    input type='hidden' name='email' value="#{collaborator.email}"
-                    button type="submit" class="btn btn-xs btn-default"
-                      span class="fas fa-user-times"
-        - if restaurant.policies.can_add_collaborators
-          button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCollaboratorModal" + Add Collaborator
+              = restaurant.owner.username
+            - restaurant.collaborators.each do |collaborator|
+              li class="list-group-item clearfix"
+                '  #{collaborator.username}
+                - if restaurant.policies.can_remove_collaborators
+                  span class="float-end"
+                    form role='form' method='post' action="/restaurants/#{restaurant.id}/collaborators"
+                      input type='hidden' name='action' value='remove'
+                      input type='hidden' name='email' value="#{collaborator.email}"
+                      button type="submit" class="btn btn-xs btn-default"
+                        span class="fas fa-user-times"
+          - if restaurant.policies.can_add_collaborators
+            button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCollaboratorModal" + Add Collaborator
 
-include :comment_new_partial
-include :collaborator_new_partial
+  include :comment_new_partial
+  include :collaborator_new_partial
 
-.row
-  .text-center
-    - if restaurant.policies.can_edit
-      a href="" edit restaurant
-    - if restaurant.policies.can_delete
-      == ' | '
-      a href="" delete restaurant
-    - if restaurant.policies.can_leave
-      == ' | '
-      a href="" leave restaurant
+  .row
+    .text-center
+      - if restaurant.policies.can_edit
+        a href="" edit restaurant
+      - if restaurant.policies.can_delete
+        == ' | '
+        a href="" delete restaurant
+      - if restaurant.policies.can_leave
+        == ' | '
+        a href="" leave restaurant

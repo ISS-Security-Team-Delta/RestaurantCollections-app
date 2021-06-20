@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'roda'
+require_relative './app'
 require_relative '../forms/new_restaurant'
 require_relative '../forms/new_comment'
 require_relative '../forms/collaborator_email'
