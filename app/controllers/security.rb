@@ -15,8 +15,7 @@ module RestaurantCollections
 
     FONT_SRC = %w[https://cdn.jsdelivr.net].freeze
     SCRIPT_SRC = %w[https://cdn.jsdelivr.net].freeze
-    STYLE_SRC = %w[https://bootswatch.com
-                   https://cdn.jsdelivr.net].freeze
+    STYLE_SRC = %w[https://bootswatch.com https://cdn.jsdelivr.net].freeze
 
     use SecureHeaders::Middleware
 
