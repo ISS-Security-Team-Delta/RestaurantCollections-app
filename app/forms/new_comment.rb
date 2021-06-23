@@ -9,7 +9,7 @@ module RestaurantCollections
 
       params do
         required(:content).filled
-        required(:like).filled
+        required(:like).filled.value(:integer)
       end
     end
   end

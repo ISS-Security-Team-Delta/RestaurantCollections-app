@@ -6,11 +6,22 @@ div id="newCommentModal" class="modal fade" role="dialog"
         button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
       div class="modal-body"
         form role="form" action="/restaurants/#{restaurant.id}/comments" method='post' id='new-comment-form'
-          div class="form-group"
-            label for='like_input' Rating:
-            input type='text' name='like' id='like_input' class="form-control" placeholder="Rating"
-          div class="form-group"
-            label for='content_input' Comment:
+          div class="form-group mb-2"
+            label for="like_input" class="form-label" Rating: 
+            .row
+              .col-md-2
+                small Bad(1)
+              .col-md-7
+                input type="range" class="form-range" min="1" max="5" id="like_input" name='like'
+              .col-md-3
+                small Excellent(5)
+          div class="form-group" 
+            label class="form-label" Comment:
+          div class="form-group form-floating mb-3"
             textarea name='content' id='content_input' class="form-control" placeholder="Type your comment here"
+            label for='content_input' Type your comment here
+
           button type='submit' class="btn btn-primary submit" id='registration-form-submit' value='submit' Create
           button type="button" class="btn btn-secondary" data-bs-dismiss="modal" Cancel
+
+

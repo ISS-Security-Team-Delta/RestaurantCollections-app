@@ -13,9 +13,10 @@ module RestaurantCollections
       use Rack::SslEnforcer, hsts: true
     end
 
-    FONT_SRC = %w[https://cdn.jsdelivr.net].freeze
+    FONT_SRC = %w[https://cdn.jsdelivr.net https://use.fontawesome.com].freeze
     SCRIPT_SRC = %w[https://cdn.jsdelivr.net].freeze
-    STYLE_SRC = %w[https://bootswatch.com https://cdn.jsdelivr.net].freeze
+    STYLE_SRC = %w[https://bootswatch.com https://cdn.jsdelivr.net https://use.fontawesome.com].freeze
+    IMG_SRC = %w[https://images.unsplash.com/ https://use.fontawesome.com https://bootswatch.com ].freeze
 
     use SecureHeaders::Middleware
 
@@ -39,10 +40,10 @@ module RestaurantCollections
         default_src: %w['self'], 
         child_src: %w['self'], 
         connect_src: %w[wws:], 
-        img_src: %w['self'],
+        img_src: %w['self'] + IMG_SRC, 
         font_src: %w['self'] + FONT_SRC, 
         script_src: %w['self'] + SCRIPT_SRC, 
-        style_src: %W['self' 'unsafe-inline'] + STYLE_SRC, 
+        style_src: %w['self' 'unsafe-inline'] + STYLE_SRC, 
         form_action: %w['self'], 
         frame_ancestors: %w['none'], 
         object_src: %w['none'], 
