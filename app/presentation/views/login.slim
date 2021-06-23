@@ -12,15 +12,20 @@ div class="container" style="margin-top: 5%"
           label for='input-password' Password
 
         button type='submit' id='button-login' value='login' class="btn btn-primary btn-block" login
-      
+
       hr
-      
+
       .row
         h5.text-center or login with ...
-      
+
       .row
         a class="btn btn-dark btn-lg btn-github" href=gh_oauth_url
           span class="fab fa-github"
           == "&emsp; Github Sign-in"
-      
-    .col-sm-4 
+          
+      .row
+        a class="btn btn-dark btn-lg btn-Google" href=google_oauth_url
+          span class="fab fa-google"
+          == "&emsp; Google Sign-in"
+
+    .col-sm-4

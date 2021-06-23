@@ -14,14 +14,26 @@ module RestaurantCollections
 
       "#{url}?client_id=#{client_id}&scope=#{scope}"
     end
+
+    def google_oauth_url(config, callback_url)
+      url = config.GOOGLE_OAUTH_URL
+      client_id = config.GOOGLE_CLIENT_ID
+      scope = config.GOOGLE_SCOPE
+
+      "#{url}?client_id=#{client_id}&scope=#{scope}&response_type=code&access_type=offline&include_granted_scopes=true&redirect_uri=#{callback_url}"
+    end
+
+
     route('auth') do |routing|
       @oauth_callback = '/auth/sso_callback'
+      @google_callback_uri = "#{App.config.APP_URL}/auth/google_sso_callback"
       @login_route = '/auth/login'
       routing.is 'login' do
         # GET /auth/login
         routing.get do
           view :login, locals: {
-            gh_oauth_url: gh_oauth_url(App.config)
+            gh_oauth_url: gh_oauth_url(App.config),
+            google_oauth_url: google_oauth_url(App.config, @google_callback_uri)
           }
         end
 
@@ -56,8 +68,8 @@ module RestaurantCollections
           routing.redirect @login_route
         end
       end
-      
-      # SSO
+
+      # Github
       routing.is 'sso_callback' do
         # GET /auth/sso_callback
         routing.get do
@@ -85,6 +97,36 @@ module RestaurantCollections
           routing.redirect @login_route
         end
       end
+
+      # Google
+      routing.is 'google_sso_callback' do
+        # GET /auth/google_sso_callback
+        routing.get do
+          authorized = AuthorizeGoogleAccount
+                       .new(App.config)
+                       .call(@google_callback_uri, routing.params['code'])
+
+          current_account = Account.new(
+            authorized[:account],
+            authorized[:auth_token]
+          )
+
+          CurrentSession.new(session).current_account = current_account
+
+          flash[:notice] = "Welcome #{current_account.username}!"
+          routing.redirect '/restaurants'
+        rescue AuthorizeGoogleAccount::UnauthorizedError
+          flash[:error] = 'Could not login with Github'
+          response.status = 403
+          routing.redirect @login_route
+        rescue StandardError => e
+          puts "GOOGLE SSO LOGIN ERROR: #{e.inspect}\n#{e.backtrace}"
+          flash[:error] = 'Unexpected API Error'
+          response.status = 500
+          routing.redirect @login_route
+        end
+      end
+
 
       # GET /auth/logout
       @logout_route = '/auth/logout'
