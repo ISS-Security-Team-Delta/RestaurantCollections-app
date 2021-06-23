@@ -105,9 +105,17 @@ module RestaurantCollections
             restaurant_list = GetAllRestaurants.new(App.config).call(@current_account)
 
             restaurants = Restaurants.new(restaurant_list)
+            restaurant = Hash.new
+            restaurants.all.each do |rest|
+              rest_info = GetRestaurant.new(App.config).call(
+                @current_account, rest.id
+              )
+              restaurant[rest.id] = Restaurant.new(rest_info)
+            end
 
             view :restaurants_all,
-                 locals: { current_user: @current_account, restaurants: restaurants }
+                 locals: { current_user: @current_account, restaurants: restaurants , restaurant: restaurant }
+
           else
             routing.redirect '/auth/login'
           end
