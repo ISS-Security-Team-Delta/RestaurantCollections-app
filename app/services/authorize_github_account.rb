@@ -43,7 +43,7 @@ module RestaurantCollections
         "#{@config.API_URL}/auth/sso",
         json: signed_sso_info
       )
-      raise if response.code >= 400
+      raise UnauthorizedError if response.code >= 400
 
       account_info = JSON.parse(response)['data']['attributes']
 
