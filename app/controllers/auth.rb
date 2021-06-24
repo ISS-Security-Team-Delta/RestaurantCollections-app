@@ -175,6 +175,47 @@ module RestaurantCollections
                          registration_token: registration_token }
         end
       end
+
+      @resetpwd_route = '/auth/resetpwd'
+      routing.on 'resetpwd' do
+        routing.is do
+          routing.get do
+            view :resetpwd
+          end
+          # POST /auth/resetpwd
+          routing.post do
+            resetpwd = Form::ResetPwd.new.call(routing.params)
+
+            if resetpwd.failure?
+              flash[:error] = Form.validation_errors(resetpwd)
+              routing.redirect @resetpwd_route
+            end
+            account_data = JsonRequestBody.symbolize(routing.params)
+            VerifyResetPassword.new(App.config).call(resetpwd.to_h)
+
+            flash[:notice] = 'Please check your email for a verification link'
+            routing.redirect '/'
+          rescue VerifyResetPassword::VerificationError => e
+            flash[:error] = e.message
+            routing.redirect @resetpwd_route
+          rescue StandardError => e
+            puts "ERROR VERIFYING RESET PWD: #{routing.params}\n#{e.inspect}"
+            flash[:error] = 'Please use a valid email address.'
+            routing.redirect @resetpwd_route
+          end
+        end
+
+        # GET /auth/resetpwd/<token>
+        routing.get(String) do |resetpwd_token|
+          flash.now[:notice] = 'Email Verified! Please choose a new password'
+          account = SecureMessage.decrypt(resetpwd_token)
+
+          action_route = "/account/resetpwd/#{resetpwd_token}"
+
+          view :resetpwd_confirm, locals: { account: account,
+                                           action_route: action_route}
+        end
+      end
     end
   end
 end

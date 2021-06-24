@@ -42,6 +42,31 @@ module RestaurantCollections
             "#{App.config.APP_URL}/auth/register/#{registration_token}"
           )
         end
+
+        # POST /account/resetpwd/<resetpwd_token>
+        routing.on 'resetpwd' do
+          routing.post String do |resetpwd_token|
+            passwords = Form::Passwords.new.call(routing.params)
+            raise Form.message_values(passwords) if passwords.failure?
+
+            resetpwd_account = SecureMessage.decrypt(resetpwd_token)
+            ResetPwd.new(App.config).call(
+              email: resetpwd_account['email'],
+              password: routing.params['password']
+            )
+
+            flash[:notice] = 'Account get back! Please login'
+            routing.redirect '/auth/login'
+          rescue ResetPwd::InvalidAccount => e
+            flash[:error] = e.message
+            routing.redirect '/auth/resetpwd'
+          rescue StandardError => e
+            flash[:error] = e.message
+            routing.redirect(
+              "#{App.config.APP_URL}/auth/resetpwd/#{resetpwd_token}"
+            )
+          end
+        end
       end
     end
   end
