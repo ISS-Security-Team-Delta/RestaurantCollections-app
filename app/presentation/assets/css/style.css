@@ -4,12 +4,44 @@
   display:block;
 }
 
+.navbar, #login-btn {
+  background-color: #114B5F!important;
+  border: none;
+}
+
+#login-btn:hover {
+  background-color: #0c3746!important;
+}
+
 .container {
   margin-top: 2%;
 }
 
+.text-right{
+  text-align: right;
+}
 .alert {
   margin-bottom: -1rem;
+}
+
+.btn-primary {
+  background-color: #114B5F!important;
+}
+
+.btn-primary:hover {
+  background-color: #0c3746!important;
+}
+
+.btn-other-login {
+  background-color: #456990;
+}
+
+.btn-other-login:hover {
+  background-color: #3a597a;
+}
+
+.other-login-text{
+  color: white;
 }
 
 /* Circle Button */
