@@ -45,7 +45,7 @@ module RestaurantCollections
         script_src: %w['self'] + SCRIPT_SRC, 
         style_src: %w['self' 'unsafe-inline'] + STYLE_SRC, 
         form_action: %w['self'], 
-        frame_ancestors: %w['none'], 
+        frame_ancestors: %w['none'],
         object_src: %w['none'], 
         block_all_mixed_content: true,
         report_uri: %w[/security/report_csp_violation] 
