@@ -116,7 +116,7 @@ module RestaurantCollections
           flash[:notice] = "Welcome #{current_account.username}!"
           routing.redirect '/restaurants'
         rescue AuthorizeGoogleAccount::UnauthorizedError
-          flash[:error] = 'Could not login with Github'
+          flash[:error] = 'Could not login with Google'
           response.status = 403
           routing.redirect @login_route
         rescue StandardError => e
