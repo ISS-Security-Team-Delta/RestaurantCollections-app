@@ -4,6 +4,7 @@ require 'roda'
 require_relative './app'
 require_relative '../forms/new_restaurant'
 require_relative '../forms/new_comment'
+require_relative '../forms/new_meal'
 require_relative '../forms/collaborator_email'
 
 module RestaurantCollections
@@ -75,6 +76,29 @@ module RestaurantCollections
             routing.redirect @restaurant_route
           end
 
+          # POST /restaurants/[rest_id]/meals/
+          routing.post('meals') do
+            meal_data = Form::NewMeal.new.call(routing.params)
+            if meal_data.failure?
+              flash[:error] = Form.message_values(meal_data)
+              routing.halt
+            end
+
+            CreateNewMeal.new(App.config).call(
+              current_account: @current_account,
+              restaurant_id: rest_id,
+              meal_data: meal_data.to_h
+            )
+
+            flash[:notice] = 'Your meal was added'
+          rescue StandardError => e
+            puts e.inspect
+            puts e.backtrace
+            flash[:e] = 'Could not add meal'
+          ensure
+            routing.redirect @restaurant_route
+          end
+
           # POST /restaurants/[rest_id]/comments/
           routing.post('comments') do
             comment_data = Form::NewComment.new.call(routing.params)
@@ -114,7 +138,7 @@ module RestaurantCollections
             end
 
             view :restaurants_all,
-                 locals: { current_user: @current_account, restaurants: restaurants , restaurant: restaurant }
+                 locals: { current_user: @current_account, restaurants: restaurants, restaurant: restaurant }
 
           else
             routing.redirect '/auth/login'

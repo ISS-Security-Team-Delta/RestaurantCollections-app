@@ -55,6 +55,18 @@
   div class="row"
     div class="col-lg-9"
       div class="row"
+        - if restaurant.meals
+          h2 Meals
+          - restaurant.meals.each do |meal|
+            div class="container"
+              div class="row"
+                div class="col-5"
+                  h3 #{meal.name}
+                div class="col-4"
+                  h5 $#{meal.price}
+                p #{meal.type}
+                p #{meal.description}
+      div class="row"
         table class="table"
           thead
             tr
@@ -72,6 +84,12 @@
         div class="col-xs-4"
           - if restaurant.policies.can_add_comments
             button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCommentModal" + New Comment
+      div class="row" style="height:10px;"
+
+      div class="row"
+        div class="col-xs-4"
+          - if restaurant.policies.can_add_meals
+            button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newMealModal" + New Meal
       div class="row" style="height:10px;"
       
 
@@ -102,6 +120,7 @@
           /  button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCollaboratorModal" + Add Collaborator
 
   include :comment_new_partial
+  include :meal_new_partial
   include :collaborator_new_partial
 
   .row

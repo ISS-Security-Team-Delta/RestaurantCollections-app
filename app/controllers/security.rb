@@ -13,9 +13,9 @@ module RestaurantCollections
       use Rack::SslEnforcer, hsts: true
     end
 
-    FONT_SRC = %w[https://cdn.jsdelivr.net https://use.fontawesome.com].freeze
+    FONT_SRC = %w[https://cdn.jsdelivr.net https://use.fontawesome.com https://fonts.gstatic.com].freeze
     SCRIPT_SRC = %w[https://cdn.jsdelivr.net].freeze
-    STYLE_SRC = %w[https://bootswatch.com https://cdn.jsdelivr.net https://use.fontawesome.com].freeze
+    STYLE_SRC = %w[https://bootswatch.com https://cdn.jsdelivr.net https://use.fontawesome.com https://fonts.googleapis.com].freeze
     IMG_SRC = %w[https://images.unsplash.com/ https://use.fontawesome.com https://bootswatch.com ].freeze
 
     use SecureHeaders::Middleware

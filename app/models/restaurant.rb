@@ -5,8 +5,8 @@ require_relative 'restaurant'
 module RestaurantCollections
   # Behaviors of the currently logged in account
   class Restaurant
-    attr_reader :id, :website, :name, :address, :menu,
-                :owner, :collaborators, :comments, :policies
+    attr_reader :id, :website, :name, :address,
+                :owner, :collaborators, :comments, :meals, :policies
 
     def initialize(rest_info)
       process_attributes(rest_info['attributes'])
@@ -21,7 +21,6 @@ module RestaurantCollections
       @website = attributes['website']
       @name = attributes['name']
       @address = attributes['address']
-      @menu = attributes['menu']
     end
 
     def process_relationships(relationships)
@@ -30,6 +29,7 @@ module RestaurantCollections
       @owner = Account.new(relationships['owner'])
       @collaborators = process_collaborators(relationships['collaborators'])
       @comments = process_comments(relationships['comments'])
+      @meals = process_meals(relationships['meals'])
     end
 
     def process_policies(policies)
@@ -40,6 +40,12 @@ module RestaurantCollections
       return nil unless comments_info
 
       comments_info.map { |com_info| Comment.new(com_info) }
+    end
+
+    def process_meals(meals_info)
+      return nil unless meals_info
+
+      meals_info.map { |meal_info| Meal.new(meal_info) }
     end
 
     def process_collaborators(collaborators)
