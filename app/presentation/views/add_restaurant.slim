@@ -1,8 +1,8 @@
-div class="container mt-5"
+.container style="margin-top: 5em"
   div class="row" style="vertical-align: bottom;"
-    div class="col-xs-9"
-      h3 Add New Restaurant
+    div class="col-md-1"
     div class="col-md-10"
+      h3 Add New Restaurant
       form role="form" action="/restaurants" method='post' id='new-restaurant-form'
         div class="form-group form-floating mb-1"          
           input type='text' name='name' id='name_input' class="form-control" placeholder="Name is required" required="required"
@@ -10,8 +10,9 @@ div class="container mt-5"
         div class="form-group form-floating mb-1"          
           input type='text' name='website' id='website_input' class="form-control" placeholder="Must be a URL: https://ubereats.com/me/example" required="required"
           label for='website_input' Restaurant Website (eg. https://ubereats.com/me/):
-        div class="form-group form-floating mb-1"
+        div class="form-group form-floating mb-2"
           input type='text' name='address' id='address_input' class="form-control" placeholder="No., Street, City" required="required"
           label for='address_input' Restaurant Address:
         button type='submit' id='new-restaurant-form-submit' class='submit' value='submit' class="btn btn-primary" Create
+    div class="col-md-1"
     
