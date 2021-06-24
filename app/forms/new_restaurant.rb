@@ -12,7 +12,6 @@ module RestaurantCollections
         required(:name).filled
         required(:website).filled(format?: URI::DEFAULT_PARSER.make_regexp)
         required(:address).filled
-        required(:menu).filled
       end
     end
   end

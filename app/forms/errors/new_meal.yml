@@ -1,0 +1,6 @@
+en:
+  errors:
+    name: 'Name must be filled'
+    description: 'Description must be filled'
+    type: 'Type must be filled'
+    price: 'Price must be filled'

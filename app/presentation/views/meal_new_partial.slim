@@ -1,0 +1,35 @@
+div id="newMealModal" class="modal fade" role="dialog"
+  div class="modal-dialog"
+    div class="modal-content"
+      div class="modal-header"
+        h4 New Meal
+        button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+      div class="modal-body container"
+        form role="form" action="/restaurants/#{restaurant.id}/meals" method='post' id='new-meal-form'
+          div class="form-group row mb-2"
+            div class="col-md-3"
+              label for='name_input' Meal Name:
+            div class="col-md-9"
+              input name='name' id='name_input' class="form-control" placeholder="Name of Meal"
+          div class="form-group row mb-2"
+            div class="col-md-3"
+              label for='description_input' Meal Description:
+            div class="col-md-9"
+              textarea name='description' id='description_input' class="form-control" placeholder="Meal Description"
+          div class="form-group row mb-2"
+            div class="col-md-3"
+              label for='type_input' Meal Type:
+            div class="col-md-9"
+              select name="type" id="type_input" class="form-control"
+                option value="Breakfast" Breakfast
+                option value="Brunch" Brunch
+                option value="Lunch" Lunch
+                option value="Dinner" Dinner
+                option value="Drink" Drink
+          div class="form-group row mb-2"
+            div class="col-md-3"
+              label for='price_input' Meal Price:
+            div class="col-md-9"
+              input type='number' name='price' id='price_input' class="form-control" min='0'
+          button type='submit' class="btn btn-primary submit" id='newmeal-form-submit' value='submit' Create
+          button type="button" class="btn btn-secondary" data-bs-dismiss="modal" Cancel
