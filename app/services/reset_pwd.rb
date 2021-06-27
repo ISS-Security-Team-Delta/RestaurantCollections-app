@@ -5,7 +5,12 @@ require 'http'
 module RestaurantCollections
   # Returns an authenticated user, or nil
   class ResetPwd
-    class InvalidAccount < StandardError; end
+    # Error for accounts that cannot be reset
+    class InvalidAccount < StandardError
+      def message
+        'This password cannot be reseted: please check again'
+      end
+    end
 
     def initialize(config)
       @config = config

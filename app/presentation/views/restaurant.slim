@@ -27,8 +27,11 @@
               - total = 0; avg = 0
               - restaurant.comments.each do |comment|
                 - total += comment.like
-              - avg = total.to_f / restaurant.comments.length
-              button type="button" class="btn btn-secondary disabled" = avg.round(1)
+              - if restaurant.comments.length.zero?
+                - avg = "No rating yet"
+              - else
+                - avg = (total.to_f / restaurant.comments.length).round(1)
+              button type="button" class="btn btn-secondary disabled" = avg
         div class="row mt-3"
           div class="col-sm-3"
             dt Collaborators
